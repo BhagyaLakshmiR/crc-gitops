@@ -1,17 +1,20 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: remove-resource-limits
   annotations:
-    policies.kyverno.io/title: Remove Resource Limits
+    argocd.argoproj.io/tracking-id: kyverno-policies:kyverno.io/ClusterPolicy:/remove-resource-limits
     policies.kyverno.io/category: Resource Management
     policies.kyverno.io/description: >-
-      Removes resource requests and limits from all pods.
-      Used on CRC to allow pods to run without resource constraints.
+      Removes resource requests and limits from all pods. Used on CRC to allow
+      pods to run without resource constraints.
+    policies.kyverno.io/title: Remove Resource Limits
+  name: remove-resource-limits
 spec:
+  admission: true
+  background: true
+  emitWarning: false
   rules:
-    - name: remove-resources
-      match:
+    - match:
         any:
           - resources:
               kinds:
@@ -20,12 +23,11 @@ spec:
         patchStrategicMerge:
           spec:
             containers:
-              - (name): "*"
-                resources:
-                  requests: null
-                  limits: null
+              - (name): '*'
+                resources: {}
             initContainers:
-              - (name): "*"
-                resources:
-                  requests: null
-                  limits: null
+              - (name): '*'
+                resources: {}
+      name: remove-resources
+      skipBackgroundRequests: true
+  validationFailureAction: Audit
