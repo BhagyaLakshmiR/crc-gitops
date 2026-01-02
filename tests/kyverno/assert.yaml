@@ -1,0 +1,17 @@
+# Assert Kyverno admission controller is running
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: kyverno
+  labels:
+    app.kubernetes.io/component: admission-controller
+status:
+  phase: Running
+---
+# Assert ClusterPolicy exists and is ready
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: remove-resource-limits
+status:
+  ready: true

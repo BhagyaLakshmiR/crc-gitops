@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: remove-resource-limits
+spec:
+  rules:
+    - name: remove-resources
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      mutate:
+        patchStrategicMerge:
+          spec:
+            containers:
+              - (name): "*"
+                resources:
+                  requests: null
+                  limits: null
+            initContainers:
+              - (name): "*"
+                resources:
+                  requests: null
+                  limits: null

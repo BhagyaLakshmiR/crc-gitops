@@ -1,0 +1,19 @@
+# Assert ArgoCD pods are running
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: openshift-gitops
+  labels:
+    app.kubernetes.io/part-of: argocd
+status:
+  phase: Running
+---
+# Assert ArgoCD Application is synced
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-operators
+  namespace: openshift-gitops
+status:
+  sync:
+    status: Synced

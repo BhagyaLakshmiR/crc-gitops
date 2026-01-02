@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://kyverno.github.io/kyverno/
+    chart: kyverno
+    targetRevision: 3.6.1
+    helm:
+      valuesObject:
+        admissionController:
+          replicas: 1
+          resources: {}
+        backgroundController:
+          replicas: 1
+          resources: {}
+        cleanupController:
+          replicas: 1
+          resources: {}
+        reportsController:
+          replicas: 1
+          resources: {}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kyverno
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
