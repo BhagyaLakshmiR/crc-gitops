@@ -22,9 +22,10 @@ spec:
       scopes: user:full
       auth_url: https://oauth-openshift.apps-crc.testing/oauth/authorize
       token_url: https://oauth-openshift.apps-crc.testing/oauth/token
-      api_url: https://oauth-openshift.apps-crc.testing/apis/user.openshift.io/v1/users/~
+      # Use kubernetes API to get user info (NOT oauth-openshift)
+      api_url: https://kubernetes.default.svc/apis/user.openshift.io/v1/users/~
       tls_skip_verify_insecure: "true"
-      # Map OpenShift user attributes to Grafana
+      # Map OpenShift user response to Grafana fields
       id_attribute_path: metadata.uid
       login_attribute_path: metadata.name
       name_attribute_path: metadata.name
