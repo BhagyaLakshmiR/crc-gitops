@@ -1,14 +1,18 @@
+# ServiceMonitors for ArgoCD metrics in OpenShift GitOps
+# These match the openshift-gitops namespace services
+---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: argocd-metrics
+  name: argocd-application-controller
   namespace: openshift-gitops
-  labels:
-    release: prometheus
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: argocd-metrics
+      app.kubernetes.io/name: openshift-gitops-application-controller
+  namespaceSelector:
+    matchNames:
+      - openshift-gitops
   endpoints:
     - port: metrics
       interval: 30s
@@ -16,14 +20,31 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: argocd-server-metrics
+  name: argocd-server
   namespace: openshift-gitops
-  labels:
-    release: prometheus
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: argocd-server-metrics
+      app.kubernetes.io/name: openshift-gitops-server
+  namespaceSelector:
+    matchNames:
+      - openshift-gitops
+  endpoints:
+    - port: metrics
+      interval: 30s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: argocd-repo-server
+  namespace: openshift-gitops
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openshift-gitops-repo-server
+  namespaceSelector:
+    matchNames:
+      - openshift-gitops
   endpoints:
     - port: metrics
       interval: 30s
