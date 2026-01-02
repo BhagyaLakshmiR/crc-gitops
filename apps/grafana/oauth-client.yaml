@@ -1,0 +1,8 @@
+apiVersion: oauth.openshift.io/v1
+kind: OAuthClient
+metadata:
+  name: grafana
+grantMethod: auto
+redirectURIs:
+  - https://grafana-route-grafana.apps-crc.testing/login/generic_oauth
+secret: grafana-oauth-secret-value

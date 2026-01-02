@@ -7,11 +7,35 @@ metadata:
     dashboards: grafana
 spec:
   config:
+    server:
+      root_url: https://grafana-route-grafana.apps-crc.testing
     auth:
       disable_login_form: "false"
-    security:
-      admin_user: admin
-      admin_password: admin
+      disable_signout_menu: "false"
+    auth.generic_oauth:
+      enabled: "true"
+      name: OpenShift
+      allow_sign_up: "true"
+      client_id: grafana
+      client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+      scopes: user:info
+      auth_url: https://oauth-openshift.apps-crc.testing/oauth/authorize
+      token_url: https://oauth-openshift.apps-crc.testing/oauth/token
+      api_url: https://oauth-openshift.apps-crc.testing/apis/user.openshift.io/v1/users/~
+      tls_skip_verify_insecure: "true"
+      role_attribute_path: "contains(groups[*], 'system:cluster-admins') && 'Admin' || 'Viewer'"
+  deployment:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: grafana
+              env:
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oauth-secret
+                      key: client-secret
   route:
     spec:
       tls:
