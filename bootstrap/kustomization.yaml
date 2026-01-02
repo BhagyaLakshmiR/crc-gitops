@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Bootstrap resources - apply with: oc apply -k .
+# Note: Some resources require waiting for dependencies
+
+resources:
+  # Step 1: Install GitOps operator (creates ArgoCD CR after ~60s)
+  - openshift-gitops.yaml
+  
+  # Step 2: Repo secret (ArgoCD must exist first)
+  # - repo-secret.yaml  # Uncomment after filling in YOUR_GITHUB_PAT
+  
+  # Note: argocd-patch.yaml must be applied AFTER ArgoCD CR exists
+  # Cannot be included in kustomization - requires operator to create CR first
+  
+  # Step 3: App-of-Apps (after all above)
+  # - platform-bootstrap-app.yaml

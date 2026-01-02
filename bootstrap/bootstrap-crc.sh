@@ -64,27 +64,18 @@ echo "5. Granting cluster-admin to ArgoCD app controller..."
 oc adm policy add-cluster-role-to-user cluster-admin \
   -z openshift-gitops-argocd-application-controller -n openshift-gitops
 
-# Step 4: Create repo secret (if GitHub token available)
+# Step 4: Create repo secret
 echo ""
 echo "6. Creating repository secret..."
 if [ -n "$GITHUB_TOKEN" ]; then
-    oc create secret generic crc-gitops-repo \
-      --from-literal=type=git \
-      --from-literal=url="$GITOPS_REPO" \
-      --from-literal=username="$GITHUB_USER" \
-      --from-literal=password="$GITHUB_TOKEN" \
-      -n openshift-gitops 2>/dev/null || echo "   Secret already exists"
-    oc label secret crc-gitops-repo argocd.argoproj.io/secret-type=repository -n openshift-gitops 2>/dev/null || true
+    # Apply repo-secret.yaml with PAT substituted
+    sed "s/YOUR_GITHUB_PAT/$GITHUB_TOKEN/g" "$SCRIPT_DIR/repo-secret.yaml" | oc apply -f -
     echo "   Repository secret created"
 else
-    echo "   MANUAL STEP REQUIRED: Create repository secret"
-    echo "   Run:"
-    echo "   oc create secret generic crc-gitops-repo \\"
-    echo "     --from-literal=type=git \\"
-    echo "     --from-literal=url=$GITOPS_REPO \\"
-    echo "     --from-literal=username=YOUR_USERNAME \\"
-    echo "     --from-literal=password=YOUR_PAT \\"
-    echo "     -n openshift-gitops"
+    echo "   MANUAL STEP REQUIRED: Edit repo-secret.yaml and apply"
+    echo "   1. Edit $SCRIPT_DIR/repo-secret.yaml"
+    echo "   2. Replace YOUR_GITHUB_PAT with: gh auth token"
+    echo "   3. Run: oc apply -f $SCRIPT_DIR/repo-secret.yaml"
 fi
 
 # Step 5: Pre-install Kyverno CRDs (WORKAROUND for ArgoCD sync issue)
