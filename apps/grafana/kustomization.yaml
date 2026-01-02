@@ -7,4 +7,5 @@ resources:
   - grafana.yaml
   - datasource-prometheus.yaml
   - dashboard-argocd.yaml
+  - argocd-servicemonitor.yaml
   # Comment out any resource to exclude it from deployment

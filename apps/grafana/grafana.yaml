@@ -26,6 +26,7 @@ spec:
       login_attribute_path: metadata.name
       name_attribute_path: metadata.name
       email_attribute_path: metadata.name
+      role_attribute_path: "'Admin'"
       use_pkce: "true"
   deployment:
     spec:
