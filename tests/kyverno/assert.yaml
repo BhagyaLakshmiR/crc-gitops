@@ -1,17 +1,11 @@
-# Assert Kyverno admission controller is running
-apiVersion: v1
-kind: Pod
+# Assert Kyverno Application is synced
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
-  namespace: kyverno
-  labels:
-    app.kubernetes.io/component: admission-controller
+  name: kyverno
+  namespace: openshift-gitops
 status:
-  phase: Running
----
-# Assert ClusterPolicy exists and is ready
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
-metadata:
-  name: remove-resource-limits
-status:
-  ready: true
+  sync:
+    status: Synced
+  health:
+    status: Healthy

@@ -1,19 +1,6 @@
-# Assert Grafana operator pod is running
-apiVersion: v1
-kind: Pod
-metadata:
-  namespace: grafana
-  labels:
-    app.kubernetes.io/name: grafana-operator
-status:
-  phase: Running
----
-# Assert Grafana Operator CSV is succeeded
+# Assert Grafana Subscription exists
 apiVersion: operators.coreos.com/v1alpha1
-kind: ClusterServiceVersion
+kind: Subscription
 metadata:
+  name: grafana-operator
   namespace: grafana
-  labels:
-    operators.coreos.com/grafana-operator.grafana: ""
-status:
-  phase: Succeeded

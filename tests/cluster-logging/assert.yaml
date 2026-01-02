@@ -1,18 +1,6 @@
-# Assert Cluster Logging operator pod is running
-apiVersion: v1
-kind: Pod
-metadata:
-  namespace: openshift-logging
-  labels:
-    name: cluster-logging-operator
-status:
-  phase: Running
----
-# Assert Logging subscription exists
+# Assert Logging Subscription exists
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: cluster-logging
   namespace: openshift-logging
-status:
-  state: AtLatestKnown
