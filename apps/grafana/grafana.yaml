@@ -18,12 +18,15 @@ spec:
       allow_sign_up: "true"
       client_id: grafana
       client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
-      scopes: user:info
+      scopes: user:full
       auth_url: https://oauth-openshift.apps-crc.testing/oauth/authorize
       token_url: https://oauth-openshift.apps-crc.testing/oauth/token
-      api_url: https://oauth-openshift.apps-crc.testing/apis/user.openshift.io/v1/users/~
+      api_url: https://kubernetes.default.svc/apis/user.openshift.io/v1/users/~
       tls_skip_verify_insecure: "true"
-      role_attribute_path: "contains(groups[*], 'system:cluster-admins') && 'Admin' || 'Viewer'"
+      login_attribute_path: metadata.name
+      name_attribute_path: metadata.name
+      email_attribute_path: metadata.name
+      use_pkce: "true"
   deployment:
     spec:
       template:
