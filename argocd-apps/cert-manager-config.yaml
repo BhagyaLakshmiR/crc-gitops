@@ -1,16 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kyverno-policies
+  name: cert-manager-config
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/KondaReddyR/crc-gitops.git
     targetRevision: main
-    path: policies
+    path: apps/cert-manager
   destination:
     server: https://kubernetes.default.svc
+    namespace: cert-manager
   syncPolicy:
     automated:
       prune: true

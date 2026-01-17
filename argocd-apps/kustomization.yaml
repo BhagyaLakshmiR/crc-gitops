@@ -4,12 +4,13 @@ kind: Kustomization
 resources:
   # Operators managed by ArgoCD
   - platform-operators.yaml
-  
+
   # Platform components
+  - cert-manager-config.yaml
   - kyverno.yaml
   - kyverno-policies.yaml
-  
+
   # Applications
   - grafana-instance.yaml
-  
+
   # Comment out any app to exclude it from deployment
