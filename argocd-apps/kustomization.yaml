@@ -8,7 +8,6 @@ resources:
   - platform-operators.yaml
 
   # Platform components
-  - cert-manager-config.yaml
   - kyverno.yaml
   - kyverno-policies.yaml
 
