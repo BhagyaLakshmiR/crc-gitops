@@ -13,7 +13,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Configuration
-GITOPS_REPO="https://github.com/KondaReddyR/crc-gitops.git"
+GITOPS_REPO="https://github.com/BhagyaLakshmiR/crc-gitops.git"
 GITHUB_USER="KondaReddyR"
 KYVERNO_VERSION="3.6.1"
 
