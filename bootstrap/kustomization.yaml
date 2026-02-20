@@ -12,6 +12,9 @@ resources:
   # Step 2: ArgoCD CR configuration (RBAC, route, accounts)
   - argocd-patch.yaml
 
+  # Grant ArgoCD application controller cluster-admin so it can deploy to any namespace
+  - argocd-rbac.yaml
+
   # Step 3: Repo secret - create manually with:
   #   oc create secret generic crc-gitops-secret -n openshift-gitops \
   #     --from-literal=type=git \
