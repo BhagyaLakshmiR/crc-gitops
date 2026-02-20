@@ -59,6 +59,8 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
+        migration:
+          enabled: false
         features:
           admissionReports:
             enabled: true
@@ -67,13 +69,6 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: kyverno
-  ignoreDifferences:
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: kyverno:migrate-resources
-    - group: rbac.authorization.k8s.io
-      kind: ClusterRoleBinding
-      name: kyverno:migrate-resources
   syncPolicy:
     automated:
       prune: true
@@ -82,4 +77,3 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
       - Replace=true
-      - RespectIgnoreDifferences=true
