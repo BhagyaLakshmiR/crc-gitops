@@ -5,18 +5,25 @@ metadata:
   namespace: openshift-gitops
 spec:
   rbac:
+    defaultPolicy: ""
     policy: |
       g, system:cluster-admins, role:admin
       g, cluster-admins, role:admin
       g, kubeadmin, role:admin
-    scopes: '[groups,name]'
+      p, role:admin, *, *, *, allow
+    scopes: '[groups, preferred_username]'
+  extraConfig:
+    accounts.kubeadmin: apiKey
+  server:
+    route:
+      enabled: true
+      tls:
+        termination: passthrough
   controller:
     resources: {}
   redis:
     resources: {}
   repo:
-    resources: {}
-  server:
     resources: {}
   applicationSet:
     resources: {}

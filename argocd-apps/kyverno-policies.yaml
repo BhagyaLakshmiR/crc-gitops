@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/BhagyaLakshmiR/crc-gitops.git
+    repoURL: https://github.com/KondaReddyR/crc-gitops.git
     targetRevision: main
     path: policies
   destination:

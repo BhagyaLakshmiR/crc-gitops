@@ -1,19 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-of-apps
+  name: argocd-config
   namespace: openshift-gitops
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   project: default
   source:
     repoURL: https://github.com/KondaReddyR/crc-gitops.git
     targetRevision: main
-    path: argocd-apps
+    path: bootstrap
   destination:
     server: https://kubernetes.default.svc
+    namespace: openshift-gitops
   syncPolicy:
     automated:
-      prune: true
+      prune: false
       selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
